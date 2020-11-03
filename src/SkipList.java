@@ -10,8 +10,6 @@ public class SkipList {
 
         //this.lower.getRight() = this.upper;
 
-
-
         this.heightMax      = 1;
     }
 
