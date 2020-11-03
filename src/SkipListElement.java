@@ -7,23 +7,12 @@ public class SkipListElement {
     private SkipListElement top, right, bottom, left;
 
     public SkipListElement(int element) {
-        this.element    = element;
-        this.height     = this.calculateHeight();
+        this.element = element;
+        this.height = this.calculateHeight();
 
     }
 
-    //------------------------ METHODS
-    public int calculateHeight() {
-        Random random = new Random();
-        int numberHeight = 0;
-
-        while (random.nextBoolean()) {
-            numberHeight++;
-        }
-
-        return numberHeight;
-    }
-
+    //------------------------ ACCESSORS
     public int getElement() {
         return this.element;
     }
@@ -59,4 +48,18 @@ public class SkipListElement {
     public void setLeft(SkipListElement left) {
         this.left = left;
     }
+
+    //------------------------ METHODS
+    public int calculateHeight() {
+        Random random = new Random();
+        int numberHeight = 0;
+
+        while (random.nextBoolean()) {
+            numberHeight++;
+        }
+
+        return numberHeight;
+    }
+
 }
+
