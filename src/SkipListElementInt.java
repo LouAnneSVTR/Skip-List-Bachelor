@@ -9,14 +9,14 @@ public class SkipListElementInt{
     private SkipListElementInt top, right, bottom, left;
 
     //---------------------- CONSTRUCTOR 1
-    public SkipListElementInt(int element) {
+    public SkipListElementInt(int element, int height) {
         this.bound  = false;
         this.element = element;
-        this.height = this.calculateHeight();
+        this.height = height;
     }
 
     //---------------------- CONSTRUCTOR 2
-    public SkipListElementInt() {
+    public SkipListElementInt(int element) {
         this.bound = true;
         this.element = 0;
         this.top = null;

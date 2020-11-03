@@ -5,12 +5,12 @@ public class SkipList {
     private int heightMax;
 
     public SkipList() {
-        this.lower     = new SkipListElementInt();
-        this.upper    = new SkipListElementInt();
+        this.lower      = new SkipListElementInt(Integer.MIN_VALUE);
+        this.upper      = new SkipListElementInt(Integer.MAX_VALUE);
 
         //this.lower.getRight() = this.upper;
 
-        this.heightMax      = 1;
+        this.heightMax  = 1;
     }
 
     public SkipListElementInt searchElementInt(SkipListElementInt inSkipList, int element) {
