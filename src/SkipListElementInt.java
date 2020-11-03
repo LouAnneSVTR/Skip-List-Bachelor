@@ -8,18 +8,21 @@ public class SkipListElementInt{
 
     private SkipListElementInt top, right, bottom, left;
 
-
-
+    //---------------------- CONSTRUCTOR 1
     public SkipListElementInt(int element) {
+        this.bound  = false;
         this.element = element;
         this.height = this.calculateHeight();
-
-        this.bound  = false;
     }
 
+    //---------------------- CONSTRUCTOR 2
     public SkipListElementInt() {
         this.bound = true;
         this.element = 0;
+        this.top = null;
+        this.right = null;
+        this.bottom = null;
+        this.left = null;
     }
 
     //------------------------ ACCESSORS

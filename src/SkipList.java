@@ -1,12 +1,16 @@
 public class SkipList {
-    private SkipListElementInt inSkipList;
-    private SkipListElementInt outSkipList;
+    private SkipListElementInt lower;
+    private SkipListElementInt upper;
 
     private int heightMax;
 
     public SkipList() {
-        this.inSkipList     = new SkipListElementInt();
-        this.outSkipList    = new SkipListElementInt();
+        this.lower     = new SkipListElementInt();
+        this.upper    = new SkipListElementInt();
+
+        //this.lower.getRight() = this.upper;
+
+
 
         this.heightMax      = 1;
     }
