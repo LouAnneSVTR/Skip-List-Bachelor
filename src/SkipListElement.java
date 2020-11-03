@@ -49,6 +49,7 @@ public class SkipListElement {
         this.left = left;
     }
 
+
     //------------------------ METHODS
     public int calculateHeight() {
         Random random = new Random();
