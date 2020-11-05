@@ -3,21 +3,19 @@ public class SkipList {
     private SkipListInt upper;
     private int heightMax;
 
-    private SkipListInt test;
+    private int numberElements;
 
     //---------------------- CONSTRUCTOR 1
     public SkipList() {
         this.lower     = new SkipListInt(Integer.MIN_VALUE, true, false);
         this.upper    = new SkipListInt(Integer.MAX_VALUE, false, true);
 
-        this.test       = new SkipListInt(3, 1);
-
-        this.lower.setRight(this.test);
-        this.test.setLeft(this.lower);
-        this.test.setRight(this.upper);
-        this.upper.setLeft(this.test);
+        this.lower.setRight(this.upper);
+        this.upper.setLeft(this.lower);
 
         this.heightMax      = 1;
+
+        this.numberElements = 0;
     }
 
     //------------------------ METHODS
@@ -25,7 +23,7 @@ public class SkipList {
 
         SkipListInt result;
 
-        if (!inSkipList.isMaxBound()) {
+        if (!this.isEmpty()) {
             if (element < inSkipList.getRight().getElement()) {
                 if (inSkipList.getBottom() != null) {
                     result = searchElementInt(inSkipList.getBottom(), element);
@@ -45,10 +43,24 @@ public class SkipList {
             }
 
         } else {
-            result =  null;
+            result =  this.lower;
         }
 
+        result = getLevelZeroElement(result);
+
         return result;
+    }
+
+    public SkipListInt getLevelZeroElement(SkipListInt element) {
+        if (element.getBottom() != null) {
+            return getLevelZeroElement(element.getBottom());
+        } else {
+            return element;
+        }
+    }
+
+    public boolean isEmpty() {
+        return this.numberElements == 0;
     }
 
     public SkipListInt getLower() {
