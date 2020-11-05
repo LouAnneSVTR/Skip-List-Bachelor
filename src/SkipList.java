@@ -1,7 +1,6 @@
 public class SkipList {
     private SkipListInt lower;
     private SkipListInt upper;
-
     private int heightMax;
 
     //---------------------- CONSTRUCTOR 1
