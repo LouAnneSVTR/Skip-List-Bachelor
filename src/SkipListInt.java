@@ -1,22 +1,22 @@
 import java.util.Random;
 
-public class SkipListElementInt{
+public class SkipListInt{
     private int element;
     private int height;
 
     private boolean bound;
 
-    private SkipListElementInt top, right, bottom, left;
+    private SkipListInt top, right, bottom, left;
 
     //---------------------- CONSTRUCTOR 1
-    public SkipListElementInt(int element, int height) {
+    public SkipListInt(int element, int height) {
         this.bound  = false;
         this.element = element;
         this.height = height;
     }
 
     //---------------------- CONSTRUCTOR 2
-    public SkipListElementInt(int element) {
+    public SkipListInt(int element) {
         this.bound = true;
         this.element = 0;
         this.top = null;
@@ -30,35 +30,35 @@ public class SkipListElementInt{
         return this.element;
     }
 
-    public SkipListElementInt getTop() {
+    public SkipListInt getTop() {
         return this.top;
     }
 
-    public void setTop(SkipListElementInt top) {
+    public void setTop(SkipListInt top) {
         this.top = top;
     }
 
-    public SkipListElementInt getRight() {
+    public SkipListInt getRight() {
         return this.right;
     }
 
-    public void setRight(SkipListElementInt right) {
+    public void setRight(SkipListInt right) {
         this.right = right;
     }
 
-    public SkipListElementInt getBottom() {
+    public SkipListInt getBottom() {
         return this.bottom;
     }
 
-    public void setBottom(SkipListElementInt bottom) {
+    public void setBottom(SkipListInt bottom) {
         this.bottom = bottom;
     }
 
-    public SkipListElementInt getLeft() {
+    public SkipListInt getLeft() {
         return this.left;
     }
 
-    public void setLeft(SkipListElementInt left) {
+    public void setLeft(SkipListInt left) {
         this.left = left;
     }
 
