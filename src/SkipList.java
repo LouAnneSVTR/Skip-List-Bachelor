@@ -19,12 +19,12 @@ public class SkipList {
         SkipListElementInt result;
 
         if (inSkipList != null) {
-            if (element < inSkipList.getElement()) {
+            if (element < inSkipList.getRight().getElement()) {
                 result = searchElementInt(inSkipList.getBottom(), element);
-            } else if (element > inSkipList.getElement()) {
+            } else if (element > inSkipList.getRight().getElement()) {
                 result = searchElementInt(inSkipList.getRight(), element);
             } else {
-                result = inSkipList;
+                result = inSkipList.getRight();
             }
         } else {
             result =  inSkipList.getLeft();
