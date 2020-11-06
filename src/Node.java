@@ -1,16 +1,16 @@
 import java.util.Random;
 
-public class SkipListInt{
+public class Node{
     private final int element;
     private int height;
 
     private final boolean minBound;
     private final boolean maxBound;
 
-    private SkipListInt top, right, bottom, left;
+    private Node top, right, bottom, left;
 
     //---------------------- CONSTRUCTOR 1
-    public SkipListInt(int element, int height) {
+    public Node(int element, int height) {
         this.minBound   = false;
         this.maxBound   = false;
 
@@ -19,7 +19,7 @@ public class SkipListInt{
     }
 
     //---------------------- CONSTRUCTOR 2
-    public SkipListInt(int element, boolean minBound, boolean maxBound) {
+    public Node(int element, boolean minBound, boolean maxBound) {
         this.minBound = minBound;
         this.maxBound = maxBound;
 
@@ -36,35 +36,35 @@ public class SkipListInt{
         return this.element;
     }
 
-    public SkipListInt getTop() {
+    public Node getTop() {
         return this.top;
     }
 
-    public void setTop(SkipListInt top) {
+    public void setTop(Node top) {
         this.top = top;
     }
 
-    public SkipListInt getRight() {
+    public Node getRight() {
         return this.right;
     }
 
-    public void setRight(SkipListInt right) {
+    public void setRight(Node right) {
         this.right = right;
     }
 
-    public SkipListInt getBottom() {
+    public Node getBottom() {
         return this.bottom;
     }
 
-    public void setBottom(SkipListInt bottom) {
+    public void setBottom(Node bottom) {
         this.bottom = bottom;
     }
 
-    public SkipListInt getLeft() {
+    public Node getLeft() {
         return this.left;
     }
 
-    public void setLeft(SkipListInt left) {
+    public void setLeft(Node left) {
         this.left = left;
     }
 
