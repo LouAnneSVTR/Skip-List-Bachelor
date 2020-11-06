@@ -1,98 +1,30 @@
 public class SkipList<key,value> {
-    private SkipList top, right, bottom, left;
-    private int heightMax;
+    private Node lower;
+    private Node upper;
 
-    private boolean isEmpty;
-
-    private int element;
+    private int numberElement;
 
     //---------------------- CONSTRUCTOR ------------------------
-    public SkipList(int element, int heightMax) {
-        this.element            = element;
-
-        this.heightMax          = heightMax;
-
-        this.isEmpty            = false;
-
-        this.top                = null;
-        this.right              = null;
-        this.bottom             = null;
-        this.left               = null;
-
-    }
-
     public SkipList() {
-        this.element            = Integer.MIN_VALUE;
 
-        this.heightMax          = 1;
+        this.lower      = new Node();
+        this.upper      = this.lower.getRight();
 
-        this.isEmpty            = true;
+        this.numberElement    = 0;
 
-        this.top                = null;
-        this.right              = null;
-        this.bottom             = null;
-        this.left               = null;
-
-        this.initialiserSkipList();
-    }
-
-    private void initialiserSkipList() {
-
-        SkipList upper = new SkipList(Integer.MAX_VALUE, 1);
-
-        this.right = upper;
-        upper.setLeft(this);
     }
 
     //----------------------- ACCESSORS ------------------------
     public boolean isEmpty() {
-        return this.isEmpty;
+        return this.numberElement == 0;
     }
 
-    public int getElement() {
-        return element;
-    }
 
-    public SkipList getTop() {
-        return top;
-    }
-
-    public SkipList getRight() {
-        return right;
-    }
-
-    public SkipList getBottom() {
-        return bottom;
-    }
-
-    public SkipList getLeft() {
-        return left;
-    }
-
-    public void setTop(SkipList top) {
-        this.top = top;
-    }
-
-    public void setRight(SkipList right) {
-        this.right = right;
-    }
-
-    public void setBottom(SkipList bottom) {
-        this.bottom = bottom;
-    }
-
-    public void setLeft(SkipList left) {
-        this.left = left;
-    }
-
-    public boolean isMaxBound() {
-        return this.getElement() == Integer.MAX_VALUE;
-    }
 
     //------------------------ METHODS ------------------------
 
     // ----------------------- GET LEVEL
-    public SkipList getLevelZeroElement(SkipList element) {
+    public Node getLevelZeroElement(Node element) {
         if (element.getBottom() != null) {
             return getLevelZeroElement(element.getBottom());
         } else {
@@ -102,56 +34,59 @@ public class SkipList<key,value> {
 
     // ----------------------- INSERT
     /** @role : Insere un élément dans une skip list. On part de la borne minimal du niveau le plus haut de la skip list en parametre.
-     *  @param Sk
+     *  @param
      *  @param skElement */
     public void insert(int skElement ){
         //Variable
-        SkipList predecessor, memory;
+        Node predecessor, memory;
 
         //Begin
         if(!this.isEmpty()){
             predecessor = this.searchElementInt(skElement);
-            SkipList newSkipList = new SkipList(skElement, )
+            Node newSkipList = new Node(skElement);
             memory = predecessor.getRight();
-            predecessor.setRight(skElement);
-            skElement.setRight(memory);
-            Sk.setNumberElements(getNumberElements()+1);
+            predecessor.setRight(newSkipList);
+            newSkipList.setLeft(memory);
+            this.numberElement++;
         } else {
-            //Sk.setR
+            Node newSkipList = new Node(skElement);
+            memory = this.lower.getRight();
+            this.lower.setRight(newSkipList);
+            newSkipList.setLeft(memory);
+            this.numberElement++;
         }
     }
 
     // ----------------------- SEARCH
 
-    public SkipList searchElementInt(int soughtElement) {
-        return searchElementInt(this, soughtElement);
+    public Node searchElementInt(int soughtElement) {
+        if (!this.isEmpty()) {
+            return searchElementInt(this.lower, soughtElement);
+        }else {
+            return this.lower;
+        }
     }
-    private SkipList searchElementInt(SkipList inSkipList, int soughtElement) {
+    private Node searchElementInt(Node inSkipList, int soughtElement) {
         //Variable
-        SkipList result;
+        Node result;
 
         //Begin
-        if (!inSkipList.isEmpty()) {
-            if (soughtElement < inSkipList.getElement()) {
-                if (inSkipList.getBottom() != null) {
-                    result = searchElementInt(inSkipList.getBottom(), soughtElement);
-                } else {
-                    result = inSkipList;
-                }
-
-            } else if (soughtElement > inSkipList.getElement()) {
-                if (!inSkipList.getRight().isMaxBound()) {
-                    result = searchElementInt(inSkipList.getRight(), soughtElement);
-                } else {
-                    result = searchElementInt(inSkipList.getBottom(), soughtElement);
-                }
-
+        if (soughtElement < inSkipList.getElement()) {
+            if (inSkipList.getBottom() != null) {
+                result = searchElementInt(inSkipList.getBottom(), soughtElement);
             } else {
-                result = inSkipList.getRight();
+                result = inSkipList;
+            }
+
+        } else if (soughtElement > inSkipList.getElement()) {
+            if (!inSkipList.getRight().isMaxBound()) {
+                result = searchElementInt(inSkipList.getRight(), soughtElement);
+            } else {
+                result = searchElementInt(inSkipList.getBottom(), soughtElement);
             }
 
         } else {
-            result =  inSkipList;
+            result = inSkipList.getRight();
         }
 
         result = getLevelZeroElement(result);
