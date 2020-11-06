@@ -5,7 +5,7 @@ public class SkipList {
 
     private int numberElements;
 
-    //---------------------- CONSTRUCTOR 1
+    //---------------------- CONSTRUCTOR ------------------------
     public SkipList() {
         this.lower     = new SkipListInt(Integer.MIN_VALUE, true, false);
         this.upper    = new SkipListInt(Integer.MAX_VALUE, false, true);
@@ -18,11 +18,74 @@ public class SkipList {
         this.numberElements = 0;
     }
 
-    //------------------------ METHODS
-    public SkipListInt searchElementInt(SkipListInt inSkipList, int element) {
+    //----------------------- ACCESSORS ------------------------
+    public boolean isEmpty() {
+        return this.numberElements == 0;
+    }
 
+    public SkipListInt getLower() {
+        return lower;
+    }
+
+    public SkipListInt getUpper() {
+        return upper;
+    }
+
+    public int getHeightMax() {
+        return heightMax;
+    }
+
+    public int getNumberElements() {
+        return numberElements;
+    }
+
+    public void setLowerRight(SkipListInt upper) {
+        this.lower.setRight(upper);
+    }
+
+    public void setUpperLeft(SkipListInt lower) {
+        this.upper.setLeft(lower);
+    }
+
+
+    //------------------------ METHODS ------------------------
+
+    // ----------------------- GET LEVEL
+    public SkipListInt getLevelZeroElement(SkipListInt element) {
+        if (element.getBottom() != null) {
+            return getLevelZeroElement(element.getBottom());
+        } else {
+            return element;
+        }
+    }
+
+    // ----------------------- INSERT
+    /** @role : Insere un élément dans une skip list. On part de la borne minimal du niveau le plus haut de la skip list en parametre.
+     *  @param Sk
+     *  @param skElement
+     */
+    public void insert(SkipList Sk, SkipListInt skElement ){
+        //Variable
+        SkipListInt predecessor, memory;
+
+        //Begin
+        if(!Sk.isEmpty()){
+            predecessor = searchElementInt(Sk.getLower(),skElement.getElement());
+            memory = predecessor.getRight();
+            predecessor.getRight() = skElement;
+            skElement.getRight() = memory;
+            Sk.getNumberElements()++;
+            
+
+        }
+    }
+
+    // ----------------------- SEARCH
+    public SkipListInt searchElementInt(SkipListInt inSkipList, int element) {
+        //Variable
         SkipListInt result;
 
+        //Begin
         if (!this.isEmpty()) {
             if (element < inSkipList.getRight().getElement()) {
                 if (inSkipList.getBottom() != null) {
@@ -47,18 +110,12 @@ public class SkipList {
         }
 
         result = getLevelZeroElement(result);
-
         return result;
     }
 
-    public SkipListInt getLevelZeroElement(SkipListInt element) {
-        if (element.getBottom() != null) {
-            return getLevelZeroElement(element.getBottom());
-        } else {
-            return element;
-        }
-    }
 
+
+    //------------------------ CONCATENATION
     public void concatenationSkipList(SkipList secondSkipList) {
         SkipListInt skiplist1Upper = this.upper;
         SkipListInt skipList2Lower = getLevelZeroElement(secondSkipList.getLower());
@@ -66,6 +123,7 @@ public class SkipList {
         concatenationSkipList(skiplist1Upper, skipList2Lower);
     }
 
+    //----------
     public void concatenationSkipList(SkipListInt skiplist1Upper, SkipListInt skipList2Lower) {
 
         if (skiplist1Upper.getTop() != null && skipList2Lower.getTop() != null) {
@@ -89,23 +147,5 @@ public class SkipList {
         }
     }
 
-    public boolean isEmpty() {
-        return this.numberElements == 0;
-    }
 
-    public SkipListInt getLower() {
-        return lower;
-    }
-
-    public SkipListInt getUpper() {
-        return upper;
-    }
-
-    public void setLowerRight(SkipListInt upper) {
-        this.lower.setRight(upper);
-    }
-
-    public void setUpperLeft(SkipListInt lower) {
-        this.upper.setLeft(lower);
-    }
 }
