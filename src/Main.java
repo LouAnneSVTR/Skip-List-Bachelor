@@ -6,7 +6,7 @@ public class Main {
 
         //Begin
         System.out.println(Integer.MIN_VALUE + " / " + Integer.MAX_VALUE);
-        System.out.println(s.searchElementInt(s.getLower(), 4).getElement());
+        System.out.println(s.searchElementInt(4).getElementSkipList());
 
     }
 }

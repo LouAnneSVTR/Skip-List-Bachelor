@@ -1,65 +1,98 @@
 public class SkipList {
-    private SkipListInt lower;
-    private SkipListInt upper;
+    private SkipList top, right, bottom, left;
     private int heightMax;
 
-    private int numberElements;
+    private boolean isEmpty;
+
+    private int elementSkipList;
 
     //---------------------- CONSTRUCTOR ------------------------
+    public SkipList(int elementSkipList, int heightMax) {
+        this.elementSkipList    = elementSkipList;
+
+        this.heightMax          = heightMax;
+
+        this.isEmpty            = false;
+
+        this.top                = null;
+        this.right              = null;
+        this.bottom             = null;
+        this.left               = null;
+
+    }
+
     public SkipList() {
-        this.lower     = new SkipListInt(Integer.MIN_VALUE, true, false);
-        this.upper    = new SkipListInt(Integer.MAX_VALUE, false, true);
+        this.elementSkipList    = Integer.MIN_VALUE;
 
-        this.lower.setRight(this.upper);
-        this.upper.setLeft(this.lower);
+        this.heightMax          = 1;
 
-        this.heightMax      = 1;
+        this.isEmpty            = false;
 
-        this.numberElements = 0;
+        this.top                = null;
+        this.right              = null;
+        this.bottom             = null;
+        this.left               = null;
+
+        this.initialiserSkipList();
+    }
+
+    private void initialiserSkipList() {
+
+        SkipList upper = new SkipList(Integer.MAX_VALUE, 1);
+
+        this.right = upper;
+        upper.setLeft(this);
     }
 
     //----------------------- ACCESSORS ------------------------
     public boolean isEmpty() {
-        return this.numberElements == 0;
+        return this.right.getElementSkipList() == Integer.MAX_VALUE && this.bottom == null;
     }
 
-    public SkipListInt getLower() {
-        return lower;
-    }
-    public SkipListInt getUpper() {
-        return upper;
-    }
-    public int getHeightMax() {
-        return heightMax;
-    }
-    public int getNumberElements() {
-        return numberElements;
+    public int getElementSkipList() {
+        return elementSkipList;
     }
 
-    public void setLowerRight(SkipListInt upper) {
-        this.lower.setRight(upper);
-    }
-    public void setUpperLeft(SkipListInt lower) {
-        this.upper.setLeft(lower);
-    }
-    public void setLower(SkipListInt lower) {
-        this.lower = lower;
-    }
-    public void setUpper(SkipListInt upper) {
-        this.upper = upper;
-    }
-    public void setHeightMax(int heightMax) {
-        this.heightMax = heightMax;
-    }
-    public void setNumberElements(int numberElements) {
-        this.numberElements = numberElements;
+    public SkipList getTop() {
+        return top;
     }
 
+    public SkipList getRight() {
+        return right;
+    }
 
-//------------------------ METHODS ------------------------
+    public SkipList getBottom() {
+        return bottom;
+    }
+
+    public SkipList getLeft() {
+        return left;
+    }
+
+    public void setTop(SkipList top) {
+        this.top = top;
+    }
+
+    public void setRight(SkipList right) {
+        this.right = right;
+    }
+
+    public void setBottom(SkipList bottom) {
+        this.bottom = bottom;
+    }
+
+    public void setLeft(SkipList left) {
+        this.left = left;
+    }
+
+    public boolean isMaxBound() {
+        return this.getElementSkipList() == Integer.MAX_VALUE;
+    }
+
+    //------------------------ METHODS ------------------------
 
     // ----------------------- GET LEVEL
-    public SkipListInt getLevelZeroElement(SkipListInt element) {
+    public SkipList getLevelZeroElement(SkipList element) {
         if (element.getBottom() != null) {
             return getLevelZeroElement(element.getBottom());
         } else {
@@ -87,22 +120,26 @@ public class SkipList {
     }
 
     // ----------------------- SEARCH
-    public SkipListInt searchElementInt(SkipListInt inSkipList, int element) {
+
+    public SkipList searchElementInt(int findElement) {
+        return searchElementInt(this, findElement);
+    }
+    public SkipList searchElementInt(SkipList inSkipList, int findElement) {
         //Variable
-        SkipListInt result;
+        SkipList result;
 
         //Begin
-        if (!this.isEmpty()) {
-            if (element < inSkipList.getRight().getElement()) {
+        if (!inSkipList.isEmpty()) {
+            if (findElement < inSkipList.getElementSkipList()) {
                 if (inSkipList.getBottom() != null) {
-                    result = searchElementInt(inSkipList.getBottom(), element);
+                    result = searchElementInt(inSkipList.getBottom(), findElement);
                 } else {
                     result = inSkipList;
                 }
 
-            } else if (element > inSkipList.getRight().getElement()) {
+            } else if (findElement > inSkipList.getElementSkipList()) {
                 if (!inSkipList.getRight().isMaxBound()) {
-                    result = searchElementInt(inSkipList.getRight(), element);
+                    result = searchElementInt(inSkipList.getRight(), findElement);
                 } else {
                     result = inSkipList;
                 }
@@ -112,7 +149,7 @@ public class SkipList {
             }
 
         } else {
-            result =  this.lower;
+            result =  inSkipList;
         }
 
         result = getLevelZeroElement(result);
