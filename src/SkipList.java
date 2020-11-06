@@ -26,15 +26,12 @@ public class SkipList {
     public SkipListInt getLower() {
         return lower;
     }
-
     public SkipListInt getUpper() {
         return upper;
     }
-
     public int getHeightMax() {
         return heightMax;
     }
-
     public int getNumberElements() {
         return numberElements;
     }
@@ -42,13 +39,24 @@ public class SkipList {
     public void setLowerRight(SkipListInt upper) {
         this.lower.setRight(upper);
     }
-
     public void setUpperLeft(SkipListInt lower) {
         this.upper.setLeft(lower);
     }
+    public void setLower(SkipListInt lower) {
+        this.lower = lower;
+    }
+    public void setUpper(SkipListInt upper) {
+        this.upper = upper;
+    }
+    public void setHeightMax(int heightMax) {
+        this.heightMax = heightMax;
+    }
+    public void setNumberElements(int numberElements) {
+        this.numberElements = numberElements;
+    }
 
 
-    //------------------------ METHODS ------------------------
+//------------------------ METHODS ------------------------
 
     // ----------------------- GET LEVEL
     public SkipListInt getLevelZeroElement(SkipListInt element) {
@@ -62,8 +70,7 @@ public class SkipList {
     // ----------------------- INSERT
     /** @role : Insere un élément dans une skip list. On part de la borne minimal du niveau le plus haut de la skip list en parametre.
      *  @param Sk
-     *  @param skElement
-     */
+     *  @param skElement */
     public void insert(SkipList Sk, SkipListInt skElement ){
         //Variable
         SkipListInt predecessor, memory;
@@ -72,10 +79,9 @@ public class SkipList {
         if(!Sk.isEmpty()){
             predecessor = searchElementInt(Sk.getLower(),skElement.getElement());
             memory = predecessor.getRight();
-            predecessor.getRight() = skElement;
-            skElement.getRight() = memory;
-            Sk.getNumberElements()++;
-            
+            predecessor.setRight(skElement);
+            skElement.setRight(memory);
+            Sk.setNumberElements()++;
 
         }
     }
