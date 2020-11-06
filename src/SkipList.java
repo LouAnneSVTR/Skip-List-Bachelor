@@ -2,14 +2,16 @@ public class SkipList<key,value> {
     private Node lower;
     private Node upper;
 
+    private int MaxHeight;
     private int numberElement;
 
     //---------------------- CONSTRUCTOR ------------------------
-    public SkipList() {
+    public SkipList(int MaxHeight) {
 
         this.lower      = new Node();
         this.upper      = this.lower.getRight();
 
+        this.MaxHeight  = MaxHeight;
         this.numberElement    = 0;
 
     }
@@ -19,9 +21,23 @@ public class SkipList<key,value> {
         return this.numberElement == 0;
     }
 
+    public Node getLower() {
+        return lower;
+    }
 
+    public Node getUpper() {
+        return upper;
+    }
 
-    //------------------------ METHODS ------------------------
+    public int getMaxHeight() {
+        return MaxHeight;
+    }
+
+    public int getNumberElement() {
+        return numberElement;
+    }
+
+//------------------------ METHODS ------------------------
 
     // ----------------------- GET LEVEL
     public Node getLevelZeroElement(Node element) {
@@ -36,29 +52,42 @@ public class SkipList<key,value> {
     /** @role : Insere un élément dans une skip list. On part de la borne minimal du niveau le plus haut de la skip list en parametre.
      *  @param
      *  @param skElement */
-    public void insert(int skElement ){
+    public void insertElement(Node skElement ){
         //Variable
         Node predecessor, memory;
 
         //Begin
-        if(!this.isEmpty()){
-            predecessor = this.searchElementInt(skElement);
-            Node newSkipList = new Node(skElement);
-            memory = predecessor.getRight();
-            predecessor.setRight(newSkipList);
-            newSkipList.setLeft(memory);
-            this.numberElement++;
-        } else {
-            Node newSkipList = new Node(skElement);
-            memory = this.lower.getRight();
-            this.lower.setRight(newSkipList);
-            newSkipList.setLeft(memory);
-            this.numberElement++;
+        predecessor = this.searchElementInt(skElement.getElement()); //Predecessor prends la valeur du noeud precedent celui a inserer
+        memory = predecessor.getRight();
+        predecessor.setRight(skElement);//On ajoute le noeud a inserer a droite du precedent
+        skElement.setLeft(memory); //L'ancien noed de droite prendre comme precendent notre nouveau noeud
+        this.numberElement++;
+
+        //if ieazhfsjqc
+        this.toPLace(skElement);
+
+    }
+
+    /** @role :
+     * @param element */
+    private void toPLace( Node element ) {
+        //Variable
+        int level = element.getHeight();
+
+        //Begin
+        if (level > this.getMaxHeight()){
+            element.setHeight(this.getMaxHeight());
+        level = element.getHeight();
+        }
+
+        while( level > 0) {
+
+            level--;
         }
     }
 
-    // ----------------------- SEARCH
 
+    // ----------------------- SEARCH
     public Node searchElementInt(int soughtElement) {
         if (!this.isEmpty()) {
             return searchElementInt(this.lower, soughtElement);
@@ -97,9 +126,9 @@ public class SkipList<key,value> {
     //------------------------ CONCATENATION
     public void concatenationSkipList(SkipList secondSkipList) {
         //Node skiplist1Upper = this.upper;
-       //Node skipList2Lower = getLevelZeroElement(secondSkipList.getLower());
+        //Node skipList2Lower = getLevelZeroElement(secondSkipList.getLower());
 
-       //concatenationSkipList(skiplist1Upper, skipList2Lower);
+        //concatenationSkipList(skiplist1Upper, skipList2Lower);
     }
 
     //----------
