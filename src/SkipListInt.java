@@ -1,10 +1,11 @@
 import java.util.Random;
 
 public class SkipListInt{
-    private int element;
+    private final int element;
     private int height;
 
-    private boolean minBound, maxBound;
+    private final boolean minBound;
+    private final boolean maxBound;
 
     private SkipListInt top, right, bottom, left;
 

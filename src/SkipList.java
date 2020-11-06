@@ -76,9 +76,9 @@ public class SkipList {
             nextLowerSkipList2.setLeft(previousUpperSkipList1);
 
             concatenationSkipList(skiplist1Upper.getTop(), skipList2Lower.getTop());
-        } else if (skiplist1Upper.getTop() != null) {
+        } else if (skiplist1Upper.getTop() == null && skipList2Lower.getTop() != null) {
 
-        } else if (skipList2Lower.getTop() != null) {
+        } else if (skipList2Lower.getTop() != null && skipList2Lower.getTop() == null) {
 
         } else {
             SkipListInt previousUpperSkipList1 = skiplist1Upper.getLeft();
