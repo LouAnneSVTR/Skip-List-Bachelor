@@ -68,33 +68,43 @@ public class SkipList<key,value> {
      *  @param skElement */
     public void insertElement(Node skElement ){
         //Variable
-        Node predecessor, memory;
+        Node predecessor;
 
         //Begin
         predecessor = this.searchElementInt(skElement.getElement()); //Predecessor prends la valeur du noeud precedent celui a inserer
-        memory = predecessor.getRight();
-        predecessor.setRight(skElement);//On ajoute le noeud a inserer a droite du precedent
-        skElement.setLeft(memory); //L'ancien noed de droite prendre comme precendent notre nouveau noeud
+
+        skElement.setRight(predecessor.getRight()); //On fait le lien entre le nouveau noeud et celui a droite
+        predecessor.getRight().setLeft( skElement ); //Idem a l'inverse, celui de droite prends comme noeud a sa gauche le nouveau noeud
+        predecessor.setRight(skElement);
+        skElement.setLeft(predecessor);
+
         this.numberElement++;
-
-        //if ieazhfsjqc
-        this.toPLace(skElement);
-
+        this.toPLace(skElement);//Place le nouvel au different niveau demandé en fonction du level de l'element
     }
+
+
 
     /** @role :
      * @param element */
     private void toPLace( Node element ) {
         //Variable
         int level = element.getHeight();
+        Node memory, memoryLeft;
 
         //Begin
+        memory = new Node();
+        memoryLeft = new Node();
         if (level > this.getMaxHeight()){
             element.setHeight(this.getMaxHeight());
         level = element.getHeight();
         }
 
         while( level > 0) {
+            memory = element.getRight();
+
+            if(memory.getTop() != null ){
+                insertElement(element);
+            }
 
             level--;
         }
