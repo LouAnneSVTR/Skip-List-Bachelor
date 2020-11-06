@@ -3,6 +3,7 @@ public class SkipList<key,value> {
     private Node upper;
 
     private int MaxHeight;
+    private int actuelHeight;
     private int numberElement;
 
     //---------------------- CONSTRUCTOR ------------------------
@@ -12,6 +13,7 @@ public class SkipList<key,value> {
         this.upper      = this.lower.getRight();
 
         this.MaxHeight  = MaxHeight;
+        this.actuelHeight = 1;
         this.numberElement    = 0;
 
     }
@@ -37,12 +39,24 @@ public class SkipList<key,value> {
         return numberElement;
     }
 
-//------------------------ METHODS ------------------------
+    public void setMaxHeight(int maxHeight) {
+        MaxHeight = maxHeight;
+    }
+
+    //------------------------ METHODS ------------------------
 
     // ----------------------- GET LEVEL
     public Node getLevelZeroElement(Node element) {
         if (element.getBottom() != null) {
             return getLevelZeroElement(element.getBottom());
+        } else {
+            return element;
+        }
+    }
+
+    public Node getLevelMaxElement(Node element) {
+        if (element.getTop() != null) {
+            return getLevelZeroElement(element.getTop());
         } else {
             return element;
         }
@@ -125,14 +139,20 @@ public class SkipList<key,value> {
 
     //------------------------ CONCATENATION
     public void concatenationSkipList(SkipList secondSkipList) {
-        //Node skiplist1Upper = this.upper;
-        //Node skipList2Lower = getLevelZeroElement(secondSkipList.getLower());
+        Node skiplist1Upper = getLevelZeroElement(this.upper);
+        Node skipList2Lower = getLevelZeroElement(secondSkipList.getLower());
 
-        //concatenationSkipList(skiplist1Upper, skipList2Lower);
+        if (this.MaxHeight < secondSkipList.getMaxHeight()) {
+            this.MaxHeight = secondSkipList.getMaxHeight();
+        } else {
+            secondSkipList.setMaxHeight(this.MaxHeight);
+        }
+
+        concatenationSkipList(skiplist1Upper, skipList2Lower, secondSkipList);
     }
 
     //----------
-    public void concatenationSkipList(Node skiplist1Upper, Node skipList2Lower) {
+    public void concatenationSkipList(Node skiplist1Upper, Node skipList2Lower, SkipList secondSkipList) {
 
         if (skiplist1Upper.getTop() != null && skipList2Lower.getTop() != null) {
             Node previousUpperSkipList1 = skiplist1Upper.getLeft();
@@ -141,17 +161,38 @@ public class SkipList<key,value> {
             previousUpperSkipList1.setRight(nextLowerSkipList2);
             nextLowerSkipList2.setLeft(previousUpperSkipList1);
 
-            concatenationSkipList(skiplist1Upper.getTop(), skipList2Lower.getTop());
+            concatenationSkipList(skiplist1Upper.getTop(), skipList2Lower.getTop(), secondSkipList);
         } else if (skiplist1Upper.getTop() == null && skipList2Lower.getTop() != null) {
-
+            this.newLevel();
+            concatenationSkipList(skiplist1Upper.getTop(), skipList2Lower.getTop(), secondSkipList);
         } else if (skipList2Lower.getTop() != null && skipList2Lower.getTop() == null) {
-
+            secondSkipList.newLevel();
+            concatenationSkipList(skiplist1Upper.getTop(), skipList2Lower.getTop(), secondSkipList);
         } else {
             Node previousUpperSkipList1 = skiplist1Upper.getLeft();
             Node nextLowerSkipList2 = skipList2Lower.getRight();
 
             previousUpperSkipList1.setRight(nextLowerSkipList2);
             nextLowerSkipList2.setLeft(previousUpperSkipList1);
+        }
+    }
+
+    private boolean newLevel() {
+        if (this.actuelHeight != this.MaxHeight) {
+            Node newLower = new Node();
+            Node newUpper = newLower.getRight();
+
+            Node UpperMax = this.getLevelMaxElement(this.upper);
+
+            newLower.setBottom(this.lower);
+            this.lower.setTop(newLower);
+
+            newUpper.setBottom(UpperMax);
+            UpperMax.setTop(newUpper);
+
+            return true;
+        } else {
+            return false;
         }
     }
 
